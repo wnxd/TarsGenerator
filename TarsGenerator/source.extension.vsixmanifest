@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="TarsGenerator.64e25059-c189-4102-82c5-174a0b841956" Version="1.0" Language="zh-Hans" Publisher="wnxd" />
+        <DisplayName>TarsGenerator</DisplayName>
+        <Description xml:space="preserve">Tars Generator</Description>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 16.0)" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+        <Dependency Id="Microsoft.VisualStudio.MPF.15.0" DisplayName="Visual Studio MPF 15.0" d:Source="Installed" Version="[15.0]" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="tars2cs\tars2cs.exe" d:VsixSubPath="tars2cs" />
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" d:VsixSubPath="tars2cs" Path="tars2cs\cygstdc++-6.dll" />
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="tars2cs\cygwin1.dll" d:VsixSubPath="tars2cs" />
+    </Assets>
+</PackageManifest>
