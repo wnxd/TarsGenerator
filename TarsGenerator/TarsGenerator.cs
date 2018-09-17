@@ -1,5 +1,8 @@
 ﻿using EnvDTE;
+using EnvDTE80;
+using Microsoft;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
@@ -44,6 +47,7 @@ namespace TarsGenerator
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.Execute, menuCommandID);
+            menuItem.Supported = false;
             commandService.AddCommand(menuItem);
 
             this.tars2csPath = Path.GetDirectoryName(this.GetType().Assembly.Location) + "/tars2cs/tars2cs.exe";
@@ -111,21 +115,36 @@ namespace TarsGenerator
                 }
                 if (tarsPath != null)
                 {
-                    this.ClearItems(pi);
                     string srcFile = pi.FileNames[0];
+                    string targetPath = srcFile + "_";
                     string path = Path.GetTempPath() + pi.GetHashCode();
                     if (Directory.Exists(path))
                         Directory.Delete(path, true);
                     Directory.CreateDirectory(path);
+                    ProjectItems pis = pi.Collection;
+                    try
+                    {
+                        pis.Item(pi.Name + "_").Delete();
+                    }
+                    catch
+                    {
+
+                    }
+                    if (Directory.Exists(targetPath))
+                        Directory.Delete(targetPath, true);
+                    pi = pis.AddFolder(pi.Name + "_");
                     ProcessStartInfo psi = new ProcessStartInfo(tarsPath, $"--base-package= \"{srcFile}\"");
                     psi.UseShellExecute = false;
                     psi.CreateNoWindow = true;
                     psi.WorkingDirectory = path;
+                    psi.RedirectStandardError = true;
                     using (Process p = Process.Start(psi))
                     {
                         if (p?.WaitForExit(10 * 1000) == true)
                         {
-                            string targetPath = Path.GetDirectoryName(srcFile);
+                            IVsOutputWindowPane outputPane = (IVsOutputWindowPane)await this.ServiceProvider.GetServiceAsync(typeof(SVsGeneralOutputWindowPane));
+                            outputPane.OutputString(p.StandardError.ReadToEnd());
+                            //string targetPath = Path.GetDirectoryName(srcFile);
                             this.AddLinks(pi, path, targetPath);
                         }
                     }
@@ -148,8 +167,9 @@ namespace TarsGenerator
             {
                 string name = Path.GetFileName(dir);
                 string path = Path.Combine(targetPath, name);
-                Directory.CreateDirectory(path);
-                this.AddLinks(item, dir, path);
+                //Directory.CreateDirectory(path);
+                ProjectItem pi = item.ProjectItems.AddFolder(name);
+                this.AddLinks(pi, dir, path);
             }
             foreach (string file in Directory.EnumerateFiles(sourcePath))
             {

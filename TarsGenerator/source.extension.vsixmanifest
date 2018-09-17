@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="TarsGenerator.64e25059-c189-4102-82c5-174a0b841956" Version="1.0" Language="zh-Hans" Publisher="wnxd" />
+        <Identity Id="TarsGenerator.64e25059-c189-4102-82c5-174a0b841956" Version="1.1" Language="zh-Hans" Publisher="wnxd" />
         <DisplayName>TarsGenerator</DisplayName>
         <Description xml:space="preserve">Tars Generator</Description>
     </Metadata>
