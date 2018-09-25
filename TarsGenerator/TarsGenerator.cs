@@ -116,7 +116,7 @@ namespace TarsGenerator
                 if (tarsPath != null)
                 {
                     string srcFile = pi.FileNames[0];
-                    string tmpFile = Path.GetTempFileName();
+                    string tmpFile = Path.GetTempPath() + pi.GetHashCode() + ".tars";
                     File.Copy(srcFile, tmpFile, true);
                     string targetPath = srcFile + "_";
                     string path = Path.GetTempPath() + pi.GetHashCode();

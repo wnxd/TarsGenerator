@@ -168,6 +168,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="tars2cs\cyggcc_s-seh-1.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="tars2cs\cygstdc++-6.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
