@@ -116,6 +116,8 @@ namespace TarsGenerator
                 if (tarsPath != null)
                 {
                     string srcFile = pi.FileNames[0];
+                    string tmpFile = Path.GetTempFileName();
+                    File.Copy(srcFile, tmpFile, true);
                     string targetPath = srcFile + "_";
                     string path = Path.GetTempPath() + pi.GetHashCode();
                     if (Directory.Exists(path))
@@ -133,7 +135,7 @@ namespace TarsGenerator
                     if (Directory.Exists(targetPath))
                         Directory.Delete(targetPath, true);
                     pi = pis.AddFolder(pi.Name + "_");
-                    ProcessStartInfo psi = new ProcessStartInfo(tarsPath, $"--base-package= \"{srcFile}\"");
+                    ProcessStartInfo psi = new ProcessStartInfo(tarsPath, $"--base-package= \"{tmpFile}\"");
                     psi.UseShellExecute = false;
                     psi.CreateNoWindow = true;
                     psi.WorkingDirectory = path;
@@ -149,6 +151,7 @@ namespace TarsGenerator
                         }
                     }
                     Directory.Delete(path, true);
+                    File.Delete(tmpFile);
                 }
             }
         }
